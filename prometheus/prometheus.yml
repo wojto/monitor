@@ -36,3 +36,24 @@ scrape_configs:
     static_configs:
       - targets: ['www.budowle.pl:80']
     metrics_path: /status.php
+
+  - job_name: blackbox
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    static_configs:
+      - targets:
+        - https://www.budowle.pl/
+        - https://projekty.pracuj.pl/login
+        - https://jarvis.devire.eu/admin/login
+        - https://funduszesaturntfi.pl/login
+        - https://system.soluton.no/login
+        - https://epicode.pl/
+        - https://ddwloclawek.pl/pl/
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox-exporter:9115 # Blackbox exporter.

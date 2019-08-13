@@ -2,11 +2,11 @@ cadvisor:
   image: google/cadvisor
   ports:
     - 8080:8080
-  volumes:
-    - /:/rootfs:ro
-    - /var/run:/var/run:rw
-    - /sys:/sys:ro
-    - /var/lib/docker:/var/lib/docker:ro
+#  volumes:
+#    - /:/rootfs:ro
+#    - /var/run:/var/run:rw
+#    - /sys:/sys:ro
+#    - /var/lib/docker:/var/lib/docker:ro
 
 metrics-gateway:
   image: prom/pushgateway
@@ -28,6 +28,11 @@ grafana-ui:
   ports:
     - 3000:3000
   environment:
-    - GF_SECURITY_ADMIN_PASSWORD=secret
+    - GF_SECURITY_ADMIN_PASSWORD=admin
   links:
     - prometheus-server:prometheus
+  volumes:
+    - ./grafana_data:/var/lib/grafana
+    - ./grafana/datasources:/etc/grafana/datasources
+    - ./grafana/dashboards:/etc/grafana/dashboards
+    - ./grafana/plugins:/etc/grafana/plugins

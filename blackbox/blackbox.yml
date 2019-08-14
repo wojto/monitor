@@ -1,11 +1,3 @@
-#modules:
-#  http_2xx:
-#    prober: http
-#    http:
-#  http_post_2xx:
-#    prober: http
-#    http:
-#      method: POST
 modules:
   http_2xx:
     prober: http
